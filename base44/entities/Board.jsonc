@@ -1,0 +1,56 @@
+{
+  "name": "Board",
+  "type": "object",
+  "properties": {
+    "monday_board_id": {
+      "type": "string",
+      "description": "Monday.com board ID"
+    },
+    "name": {
+      "type": "string",
+      "description": "Board name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Board description"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this board is tracked"
+    },
+    "last_synced": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last sync timestamp"
+    },
+    "sprint_column_id": {
+      "type": "string",
+      "description": "Column ID for sprint label"
+    },
+    "status_column_id": {
+      "type": "string",
+      "description": "Column ID for status"
+    },
+    "planned_column_id": {
+      "type": "string",
+      "description": "Column ID for planned/unplanned"
+    },
+    "priority_column_id": {
+      "type": "string",
+      "description": "Column ID for priority"
+    },
+    "estimate_column_id": {
+      "type": "string",
+      "description": "Column ID for estimate (hours)"
+    },
+    "category_column_id": {
+      "type": "string",
+      "description": "Column ID for category"
+    }
+  },
+  "required": [
+    "monday_board_id",
+    "name"
+  ]
+}

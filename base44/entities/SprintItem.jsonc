@@ -1,0 +1,68 @@
+{
+  "name": "SprintItem",
+  "type": "object",
+  "properties": {
+    "monday_item_id": {
+      "type": "string"
+    },
+    "board_id": {
+      "type": "string",
+      "description": "Reference to Board entity ID"
+    },
+    "monday_board_id": {
+      "type": "string"
+    },
+    "item_name": {
+      "type": "string"
+    },
+    "task_name": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "planned": {
+      "type": "string",
+      "description": "Planned or Unplanned"
+    },
+    "sprint": {
+      "type": "string",
+      "description": "Sprint label e.g. Sprint 26"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "Low",
+        "Medium",
+        "High",
+        "Critical",
+        ""
+      ]
+    },
+    "status": {
+      "type": "string"
+    },
+    "estimate_hours": {
+      "type": "number"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "assignee": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "synced_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "monday_item_id",
+    "board_id",
+    "item_name"
+  ]
+}
