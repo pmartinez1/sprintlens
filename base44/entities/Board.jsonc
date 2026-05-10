@@ -24,9 +24,9 @@
       "format": "date-time",
       "description": "Last sync timestamp"
     },
-    "sprint_column_id": {
+    "phase_column_id": {
       "type": "string",
-      "description": "Column ID for sprint label"
+      "description": "Column ID for phase label"
     },
     "status_column_id": {
       "type": "string",

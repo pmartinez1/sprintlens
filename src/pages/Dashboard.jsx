@@ -17,7 +17,7 @@ export default function Dashboard() {
   const [boards, setBoards] = useState([]);
   const [selectedBoardId, setSelectedBoardId] = useState('all');
   const [items, setItems] = useState([]);
-  const [sprintFilter, setSprintFilter] = useState('all');
+  const [phaseFilter, setPhaseFilter] = useState('all');
   const [syncing, setSyncing] = useState(false);
   const { toast } = useToast();
 
@@ -30,11 +30,11 @@ export default function Dashboard() {
     ? items
     : items.filter(i => i.board_id === selectedBoardId);
 
-  const sprints = [...new Set(filteredByBoard.map(i => i.sprint).filter(Boolean))].sort();
+  const phases = [...new Set(filteredByBoard.map(i => i.phase).filter(Boolean))].sort();
 
-  const filteredItems = sprintFilter === 'all'
+  const filteredItems = phaseFilter === 'all'
     ? filteredByBoard
-    : filteredByBoard.filter(i => i.sprint === sprintFilter);
+    : filteredByBoard.filter(i => i.phase === phaseFilter);
 
   const blockers = filteredItems.filter(i => {
     const s = (i.status || '').toLowerCase();
@@ -75,7 +75,7 @@ export default function Dashboard() {
             <LayoutDashboard className="w-5 h-5 text-indigo-400" />
             Engineering Dashboard
           </h1>
-          <p className="text-sm text-slate-500 mt-0.5">Sprint health, blockers & velocity at a glance</p>
+          <p className="text-sm text-slate-500 mt-0.5">Phase health, blockers & velocity at a glance</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           {boards.length > 0 && (
@@ -89,14 +89,14 @@ export default function Dashboard() {
               </SelectContent>
             </Select>
           )}
-          {sprints.length > 0 && (
-            <Select value={sprintFilter} onValueChange={setSprintFilter}>
+          {phases.length > 0 && (
+            <Select value={phaseFilter} onValueChange={setPhaseFilter}>
               <SelectTrigger className="w-36 h-8 text-xs bg-slate-800 border-slate-700 text-slate-200">
-                <SelectValue placeholder="All Sprints" />
+                <SelectValue placeholder="All Phases" />
               </SelectTrigger>
               <SelectContent className="bg-slate-800 border-slate-700 text-slate-200">
-                <SelectItem value="all">All Sprints</SelectItem>
-                {sprints.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                <SelectItem value="all">All Phases</SelectItem>
+                {phases.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
               </SelectContent>
             </Select>
           )}

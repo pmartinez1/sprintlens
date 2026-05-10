@@ -57,7 +57,7 @@ export default function ItemsTable({ items }) {
     { key: 'item_name', label: 'Item' },
     { key: 'category', label: 'Category' },
     { key: 'planned', label: 'Planned' },
-    { key: 'sprint', label: 'Sprint' },
+    { key: 'phase', label: 'Phase' },
     { key: 'priority', label: 'Priority' },
     { key: 'status', label: 'Status' },
     { key: 'estimate_hours', label: 'Est. (h)' },
@@ -113,7 +113,7 @@ export default function ItemsTable({ items }) {
                     </span>
                   )}
                 </td>
-                <td className="py-2.5 px-3 text-slate-400">{item.sprint || '—'}</td>
+                <td className="py-2.5 px-3 text-slate-400">{item.phase || '—'}</td>
                 <td className="py-2.5 px-3">
                   {item.priority && (
                     <span className={`px-1.5 py-0.5 rounded border text-xs font-medium ${PRIORITY_BADGE[item.priority] || 'bg-slate-700/50 text-slate-400 border-slate-600'}`}>

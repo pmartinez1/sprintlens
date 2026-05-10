@@ -25,9 +25,9 @@
       "type": "string",
       "description": "Planned or Unplanned"
     },
-    "sprint": {
+    "phase": {
       "type": "string",
-      "description": "Sprint label e.g. Sprint 26"
+      "description": "Phase label e.g. Phase 1"
     },
     "priority": {
       "type": "string",

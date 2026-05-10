@@ -1,18 +1,18 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function VelocityChart({ items }) {
-  const sprintMap = {};
+  const phaseMap = {};
   items.forEach(item => {
-    const sprint = item.sprint || 'Unassigned';
-    if (!sprintMap[sprint]) sprintMap[sprint] = { sprint, completed: 0, hours: 0 };
+    const phase = item.phase || 'Unassigned';
+    if (!phaseMap[phase]) phaseMap[phase] = { phase, completed: 0, hours: 0 };
     const s = (item.status || '').toLowerCase();
     if (s.includes('done') || s.includes('complete')) {
-      sprintMap[sprint].completed++;
-      sprintMap[sprint].hours += item.estimate_hours || 0;
+      phaseMap[phase].completed++;
+      phaseMap[phase].hours += item.estimate_hours || 0;
     }
   });
 
-  const data = Object.values(sprintMap).sort((a, b) => a.sprint.localeCompare(b.sprint));
+  const data = Object.values(phaseMap).sort((a, b) => a.phase.localeCompare(b.phase));
 
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
@@ -20,7 +20,7 @@ export default function VelocityChart({ items }) {
       <ResponsiveContainer width="100%" height={220}>
         <LineChart data={data} margin={{ top: 0, right: 10, left: -20, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-          <XAxis dataKey="sprint" tick={{ fill: '#94a3b8', fontSize: 11 }} />
+          <XAxis dataKey="phase" tick={{ fill: '#94a3b8', fontSize: 11 }} />
           <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} />
           <Tooltip
             contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #1e293b', borderRadius: 8 }}

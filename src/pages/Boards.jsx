@@ -16,7 +16,7 @@ export default function Boards() {
   const [syncing, setSyncing] = useState({});
   const [form, setForm] = useState({
     monday_board_id: '',
-    sprint_column_id: '',
+    phase_column_id: '',
     status_column_id: '',
     planned_column_id: '',
     priority_column_id: '',
@@ -50,7 +50,7 @@ export default function Boards() {
       name: selectedMondayBoard.name,
       description: selectedMondayBoard.description || '',
       is_active: true,
-      sprint_column_id: form.sprint_column_id,
+      phase_column_id: form.phase_column_id,
       status_column_id: form.status_column_id,
       planned_column_id: form.planned_column_id,
       priority_column_id: form.priority_column_id,
@@ -60,7 +60,7 @@ export default function Boards() {
     const updated = await base44.entities.Board.list();
     setBoards(updated);
     setShowAddForm(false);
-    setForm({ monday_board_id: '', sprint_column_id: '', status_column_id: '', planned_column_id: '', priority_column_id: '', estimate_column_id: '', category_column_id: '' });
+    setForm({ monday_board_id: '', phase_column_id: '', status_column_id: '', planned_column_id: '', priority_column_id: '', estimate_column_id: '', category_column_id: '' });
     setSelectedMondayBoard(null);
     toast({ title: 'Board added', description: `${selectedMondayBoard.name} is now tracked.` });
   }
@@ -132,7 +132,7 @@ export default function Boards() {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-5">
                 {[
                   { key: 'status_column_id', label: 'Status Column' },
-                  { key: 'sprint_column_id', label: 'Sprint Column' },
+                  { key: 'phase_column_id', label: 'Phase Column' },
                   { key: 'planned_column_id', label: 'Planned/Unplanned Column' },
                   { key: 'priority_column_id', label: 'Priority Column' },
                   { key: 'estimate_column_id', label: 'Estimate (hours) Column' },

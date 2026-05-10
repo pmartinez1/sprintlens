@@ -85,7 +85,7 @@ Deno.serve(async (req) => {
       task_name: extractColumnValue(cv, 'name') || item.name,
       category: extractColumnValue(cv, board.category_column_id),
       planned: extractColumnValue(cv, board.planned_column_id),
-      sprint: extractColumnValue(cv, board.sprint_column_id),
+      phase: extractColumnValue(cv, board.phase_column_id),
       priority: extractColumnValue(cv, board.priority_column_id),
       status: extractColumnValue(cv, board.status_column_id),
       estimate_hours: parseFloat(extractColumnValue(cv, board.estimate_column_id)) || 0,

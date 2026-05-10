@@ -42,7 +42,7 @@ export default function BlockersList({ items }) {
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-slate-200 font-medium truncate">{item.item_name}</p>
                 <div className="flex items-center gap-2 mt-1 flex-wrap">
-                  <span className="text-xs text-slate-500">{item.sprint}</span>
+                  <span className="text-xs text-slate-500">{item.phase}</span>
                   {item.priority && (
                     <span className={`text-xs px-1.5 py-0.5 rounded border font-medium ${PRIORITY_COLORS[item.priority] || PRIORITY_COLORS.Low}`}>
                       {item.priority}
