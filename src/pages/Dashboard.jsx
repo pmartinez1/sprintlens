@@ -89,7 +89,7 @@ export default function Dashboard() {
               </SelectContent>
             </Select>
           )}
-          {phases.length > 0 && (
+          {phases.length > 0 && boards.length > 0 && (
             <Select value={phaseFilter} onValueChange={setPhaseFilter}>
               <SelectTrigger className="w-36 h-8 text-xs bg-slate-800 border-slate-700 text-slate-200">
                 <SelectValue placeholder="All Phases" />
