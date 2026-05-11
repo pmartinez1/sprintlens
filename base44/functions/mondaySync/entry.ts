@@ -108,14 +108,22 @@ Deno.serve(async (req) => {
       synced_at: now,
     };
 
-    // Try to find assignee from people column
+    // Try to find assignee from people column (use display text)
     const peopleCol = cv.find(c => {
       try { const p = JSON.parse(c.value); return p && p.personsAndTeams; } catch { return false; }
     });
     if (peopleCol) {
+      itemData.assignee = peopleCol.text || '';
+    }
+
+    // Try to find due date from date column
+    const dateCol = cv.find(c => {
+      try { const p = JSON.parse(c.value); return p && p.date; } catch { return false; }
+    });
+    if (dateCol) {
       try {
-        const p = JSON.parse(peopleCol.value);
-        itemData.assignee = p.personsAndTeams?.map(pt => pt.id).join(', ') || '';
+        const p = JSON.parse(dateCol.value);
+        itemData.due_date = p.date || '';
       } catch { /* ignore */ }
     }
 
