@@ -73,7 +73,18 @@ Deno.serve(async (req) => {
 
   const items = mondayBoard.items_page.items;
   const now = new Date().toISOString();
-  let created = 0, updated = 0;
+  let created = 0, updated = 0, deleted = 0;
+
+  // Build a set of monday_item_ids from the latest Monday.com response
+  const mondayItemIds = new Set(items.map(i => String(i.id)));
+
+  // Fetch all existing SprintItems for this board and delete any that are no longer in Monday.com
+  const existingItems = await base44.asServiceRole.entities.SprintItem.filter({ board_id: board.id });
+  const toDelete = existingItems.filter(si => !mondayItemIds.has(si.monday_item_id));
+  for (const stale of toDelete) {
+    await base44.asServiceRole.entities.SprintItem.delete(stale.id);
+    deleted++;
+  }
 
   for (const item of items) {
     const cv = item.column_values;
@@ -119,5 +130,5 @@ Deno.serve(async (req) => {
   // Update board last_synced
   await base44.asServiceRole.entities.Board.update(board.id, { last_synced: now });
 
-  return Response.json({ success: true, created, updated, total: items.length });
+  return Response.json({ success: true, created, updated, deleted, total: items.length });
 });
