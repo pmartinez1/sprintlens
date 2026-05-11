@@ -60,8 +60,8 @@ export default function Dashboard() {
       const res = await base44.functions.invoke('mondaySync', { board_id: board.id });
       total += res.data?.total || 0;
     }
-    const res = await base44.functions.invoke('getSprintItems', {});
-    setItems(res.data?.items || []);
+    const updated = await base44.entities.SprintItem.list('-synced_at', 500);
+    setItems(updated);
     setSyncing(false);
     toast.success('Sync complete', { description: `${total} items synced from Monday.com` });
   }
