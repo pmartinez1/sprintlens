@@ -70,6 +70,15 @@ export default function AgentPanel({ open, onClose }) {
           <p className="text-sm font-semibold text-white">Sprint Analyst</p>
           <p className="text-xs text-slate-500">AI-powered sprint insights</p>
         </div>
+        <a
+          href={base44.agents.getWhatsAppConnectURL('sprint_analyst')}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-green-400 hover:text-green-300 border border-green-500/30 bg-green-500/10 px-2 py-1 rounded-md transition-colors flex items-center gap-1"
+          title="Open in WhatsApp"
+        >
+          💬 WhatsApp
+        </a>
         <button onClick={onClose} className="text-slate-500 hover:text-white transition-colors">
           <X className="w-4 h-4" />
         </button>
