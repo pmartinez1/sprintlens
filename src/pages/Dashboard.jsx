@@ -22,8 +22,14 @@ export default function Dashboard() {
   const [syncing, setSyncing] = useState(false);
   const [agentOpen, setAgentOpen] = useState(false);
   useEffect(() => {
-    base44.entities.Board.list().then(setBoards);
-    base44.entities.SprintItem.list('-synced_at', 500).then(setItems);
+    async function loadData() {
+      const loadedBoards = await base44.entities.Board.list();
+      setBoards(loadedBoards);
+      const allItems = await base44.entities.SprintItem.list('-synced_at', 500);
+      const boardIds = new Set(loadedBoards.map(b => b.id));
+      setItems(allItems.filter(i => boardIds.has(i.board_id)));
+    }
+    loadData();
   }, []);
 
   const filteredByBoard = selectedBoardId === 'all'
@@ -61,7 +67,8 @@ export default function Dashboard() {
       total += res.data?.total || 0;
     }
     const updated = await base44.entities.SprintItem.list('-synced_at', 500);
-    setItems(updated);
+    const boardIds = new Set(boards.map(b => b.id));
+    setItems(updated.filter(i => boardIds.has(i.board_id)));
     setSyncing(false);
     toast.success('Sync complete', { description: `${total} items synced from Monday.com` });
   }
