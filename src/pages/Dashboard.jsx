@@ -10,8 +10,9 @@ import BlockersList from '@/components/dashboard/BlockersList';
 import ItemsTable from '@/components/dashboard/ItemsTable';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { RefreshCw, LayoutDashboard, AlertTriangle, TrendingUp, Layers, Link } from 'lucide-react';
+import { RefreshCw, LayoutDashboard, AlertTriangle, TrendingUp, Layers, Link, Bot } from 'lucide-react';
 import { toast } from 'sonner';
+import AgentPanel from '@/components/dashboard/AgentPanel';
 
 export default function Dashboard() {
   const [boards, setBoards] = useState([]);
@@ -19,6 +20,7 @@ export default function Dashboard() {
   const [items, setItems] = useState([]);
   const [phaseFilter, setPhaseFilter] = useState('all');
   const [syncing, setSyncing] = useState(false);
+  const [agentOpen, setAgentOpen] = useState(false);
   useEffect(() => {
     base44.entities.Board.list().then(setBoards);
     base44.entities.SprintItem.list('-synced_at', 500).then(setItems);
@@ -65,7 +67,7 @@ export default function Dashboard() {
   }
 
   return (
-    <AppLayout>
+    <AppLayout agentOpen={agentOpen}>
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
@@ -106,6 +108,15 @@ export default function Dashboard() {
           >
             <RefreshCw className={`w-3.5 h-3.5 mr-1.5 ${syncing ? 'animate-spin' : ''}`} />
             {syncing ? 'Syncing…' : 'Sync Now'}
+          </Button>
+          <Button
+            size="sm"
+            variant={agentOpen ? 'secondary' : 'outline'}
+            onClick={() => setAgentOpen(o => !o)}
+            className="h-8 text-xs border-slate-700 text-slate-300 hover:bg-slate-800"
+          >
+            <Bot className="w-3.5 h-3.5 mr-1.5" />
+            AI Analyst
           </Button>
         </div>
       </div>
@@ -171,6 +182,7 @@ export default function Dashboard() {
           <ItemsTable items={filteredItems} />
         </>
       )}
+      <AgentPanel open={agentOpen} onClose={() => setAgentOpen(false)} />
     </AppLayout>
   );
 }

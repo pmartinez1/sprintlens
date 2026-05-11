@@ -8,7 +8,7 @@ const navItems = [
   { label: 'Boards', path: '/boards', icon: Trello },
 ];
 
-export default function AppLayout({ children }) {
+export default function AppLayout({ children, agentOpen = false }) {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -74,7 +74,7 @@ export default function AppLayout({ children }) {
       )}
 
       {/* Main content */}
-      <main className="flex-1 p-4 md:p-6 max-w-screen-2xl mx-auto w-full">
+      <main className={`flex-1 p-4 md:p-6 w-full transition-all duration-300 ${agentOpen ? 'mr-96' : ''}`}>
         {children}
       </main>
     </div>
