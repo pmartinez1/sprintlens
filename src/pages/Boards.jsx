@@ -24,6 +24,25 @@ export default function Boards() {
     category_column_id: '',
   });
   const [selectedMondayBoard, setSelectedMondayBoard] = useState(null);
+  const [showColumnMapping, setShowColumnMapping] = useState(false);
+
+  function autoMapColumns(columns) {
+    const find = (keywords) => {
+      const col = columns.find(c =>
+        keywords.some(kw => c.title.toLowerCase().includes(kw))
+      );
+      return col?.id || '';
+    };
+    return {
+      status_column_id: find(['status']),
+      phase_column_id: find(['phase', 'sprint', 'iteration']),
+      planned_column_id: find(['planned', 'unplanned', 'scope']),
+      priority_column_id: find(['priority']),
+      estimate_column_id: find(['estimate', 'hours', 'effort', 'points']),
+      category_column_id: find(['category', 'type', 'label']),
+    };
+  }
+
   useEffect(() => {
     base44.entities.Board.list().then(setBoards);
   }, []);
@@ -38,7 +57,9 @@ export default function Boards() {
   function handleSelectMondayBoard(boardId) {
     const board = mondayBoards.find(b => b.id === boardId);
     setSelectedMondayBoard(board);
-    setForm(f => ({ ...f, monday_board_id: boardId }));
+    const autoMapped = autoMapColumns(board?.columns || []);
+    setForm(f => ({ ...f, monday_board_id: boardId, ...autoMapped }));
+    setShowColumnMapping(false);
   }
 
   async function handleAddBoard() {
@@ -126,31 +147,41 @@ export default function Boards() {
 
           {selectedMondayBoard && (
             <>
-              <p className="text-xs text-slate-500 mb-3">Map board columns to SprintLens fields. Select the column that holds each piece of data:</p>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-5">
-                {[
-                  { key: 'status_column_id', label: 'Status Column' },
-                  { key: 'phase_column_id', label: 'Phase Column' },
-                  { key: 'planned_column_id', label: 'Planned/Unplanned Column' },
-                  { key: 'priority_column_id', label: 'Priority Column' },
-                  { key: 'estimate_column_id', label: 'Estimate (hours) Column' },
-                  { key: 'category_column_id', label: 'Category Column' },
-                ].map(({ key, label }) => (
-                  <div key={key}>
-                    <Label className="text-xs text-slate-400 mb-1 block">{label}</Label>
-                    <Select onValueChange={val => setForm(f => ({ ...f, [key]: val }))}>
-                      <SelectTrigger className="bg-slate-800 border-slate-700 text-slate-200 text-xs h-8">
-                        <SelectValue placeholder="Select…" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-slate-800 border-slate-700 text-slate-200">
-                        {columns.map(c => (
-                          <SelectItem key={c.id} value={c.id}>{c.title} <span className="text-slate-500">({c.type})</span></SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                ))}
-              </div>
+              <p className="text-xs text-green-400 mb-3">✓ Columns auto-mapped from board data.</p>
+              <button
+                type="button"
+                className="text-xs text-indigo-400 hover:text-indigo-300 underline mb-4 block"
+                onClick={() => setShowColumnMapping(v => !v)}
+              >
+                {showColumnMapping ? 'Hide column mapping' : 'Customize column mapping'}
+              </button>
+              {showColumnMapping && (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-5">
+                  {[
+                    { key: 'status_column_id', label: 'Status Column' },
+                    { key: 'phase_column_id', label: 'Phase Column' },
+                    { key: 'planned_column_id', label: 'Planned/Unplanned Column' },
+                    { key: 'priority_column_id', label: 'Priority Column' },
+                    { key: 'estimate_column_id', label: 'Estimate (hours) Column' },
+                    { key: 'category_column_id', label: 'Category Column' },
+                  ].map(({ key, label }) => (
+                    <div key={key}>
+                      <Label className="text-xs text-slate-400 mb-1 block">{label}</Label>
+                      <Select value={form[key]} onValueChange={val => setForm(f => ({ ...f, [key]: val }))}>
+                        <SelectTrigger className="bg-slate-800 border-slate-700 text-slate-200 text-xs h-8">
+                          <SelectValue placeholder="Select…" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-slate-800 border-slate-700 text-slate-200">
+                          <SelectItem value={null}>— None —</SelectItem>
+                          {columns.map(c => (
+                            <SelectItem key={c.id} value={c.id}>{c.title} <span className="text-slate-500">({c.type})</span></SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  ))}
+                </div>
+              )}
             </>
           )}
 
