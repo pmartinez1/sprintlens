@@ -20,7 +20,7 @@
   "selected_skill_names": [],
   "selected_workspace_skill_ids": [],
   "model": "automatic",
-  "whatsapp_greeting": "",
+  "whatsapp_greeting": "Hello! I'm SprintLens \ud83d\udc4b\n\nI'm your sprint health analyst. Ask me about blockers, velocity trends, at-risk items, or the overall health of any phase.\n\nNote: my data reflects the last manual sync. Hit the sync button first if you want the latest from Monday.com.",
   "telegram_greeting": "",
   "line_greeting": "",
   "memory_config": {
