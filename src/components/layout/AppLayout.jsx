@@ -1,7 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Trello, Settings, Zap, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Trello, Zap, Menu, X, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/lib/AuthContext';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 const navItems = [
   { label: 'Dashboard', path: '/', icon: LayoutDashboard },
@@ -11,6 +13,11 @@ const navItems = [
 export default function AppLayout({ children, agentOpen = false, agentPanel = null }) {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { user, logout } = useAuth();
+
+  const initials = user?.full_name
+    ? user.full_name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+    : user?.email?.[0]?.toUpperCase() || '?';
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
@@ -41,6 +48,27 @@ export default function AppLayout({ children, agentOpen = false, agentPanel = nu
             </Link>
           ))}
         </nav>
+
+        {/* Profile dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="h-8 w-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-semibold hover:bg-indigo-500 transition-colors flex-shrink-0">
+              {initials}
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="bg-slate-900 border-slate-700 text-slate-200 min-w-[160px]">
+            {user?.full_name && (
+              <div className="px-3 py-2 text-xs text-slate-400 border-b border-slate-700">{user.full_name}</div>
+            )}
+            <DropdownMenuItem
+              onClick={() => logout()}
+              className="text-red-400 hover:text-red-300 focus:text-red-300 focus:bg-slate-800 cursor-pointer"
+            >
+              <LogOut className="w-3.5 h-3.5 mr-2" />
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         {/* Mobile menu toggle */}
         <button
