@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils';
 const navItems = [
   { label: 'Dashboard', path: '/', icon: LayoutDashboard },
   { label: 'Boards', path: '/boards', icon: Trello },
-  { label: 'Settings', path: '/settings', icon: Settings },
 ];
 
 export default function AppLayout({ children }) {
