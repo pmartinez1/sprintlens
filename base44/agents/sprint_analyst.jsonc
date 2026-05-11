@@ -26,7 +26,7 @@
   "memory_config": {
     "enabled": true,
     "scope": "both",
-    "instructions": null
+    "instructions": "Save a memory when:\n\nThe user reveals a recurring workflow or ritual (e.g. \"every Monday I check X\" or \"at the start of a sprint I need Y\") --> store the day/trigger and what query or summary to run automatically.\nThe user corrects the agent's interpretation (e.g. \"when I say blockers I also mean high priority items not started\") --> store the clarified definition for future queries.\nThe user expresses a preference for how results are presented (e.g. \"always group by assignee\" or \"I don't care about Low priority items\") --> store as a standing display preference.\nThe user provides context about their team or process (e.g. \"Phase 2 is our current active sprint\" or \"SoftwareEng One is the team lead\") --> store as persistent team context.\n\nDo not save memories for:\n\nOne-off questions with no recurring pattern\nQuestions that are fully answerable from the current data without any user-provided context\n\nWhen recalling a memory, apply it silently, don't narrate that you're using it. Just use it."
   },
   "name": "sprint_analyst"
 }
