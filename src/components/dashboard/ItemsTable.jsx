@@ -60,7 +60,8 @@ export default function ItemsTable({ items }) {
     { key: 'phase', label: 'Phase' },
     { key: 'priority', label: 'Priority' },
     { key: 'status', label: 'Status' },
-    { key: 'estimate_hours', label: 'Est. (h)' },
+    { key: 'assignee', label: 'Assignee' },
+    { key: 'due_date', label: 'Due Date' },
   ];
 
   return (
@@ -97,7 +98,7 @@ export default function ItemsTable({ items }) {
           </thead>
           <tbody>
             {sorted.length === 0 ? (
-              <tr><td colSpan={7} className="text-center py-8 text-slate-600">No items found</td></tr>
+              <tr><td colSpan={8} className="text-center py-8 text-slate-600">No items found</td></tr>
             ) : sorted.map(item => (
               <tr key={item.id} className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors">
                 <td className="py-2.5 px-3 text-slate-200 font-medium max-w-xs truncate">{item.item_name}</td>
@@ -126,7 +127,8 @@ export default function ItemsTable({ items }) {
                     {item.status || '—'}
                   </span>
                 </td>
-                <td className="py-2.5 px-3 text-slate-400">{item.estimate_hours || '—'}</td>
+                <td className="py-2.5 px-3 text-slate-400">{item.assignee || '—'}</td>
+                <td className="py-2.5 px-3 text-slate-400">{item.due_date || '—'}</td>
               </tr>
             ))}
           </tbody>
