@@ -11,7 +11,7 @@ import ItemsTable from '@/components/dashboard/ItemsTable';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { RefreshCw, LayoutDashboard, AlertTriangle, TrendingUp, Layers, Link } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 
 export default function Dashboard() {
   const [boards, setBoards] = useState([]);
@@ -19,8 +19,6 @@ export default function Dashboard() {
   const [items, setItems] = useState([]);
   const [phaseFilter, setPhaseFilter] = useState('all');
   const [syncing, setSyncing] = useState(false);
-  const { toast } = useToast();
-
   useEffect(() => {
     base44.entities.Board.list().then(setBoards);
     base44.entities.SprintItem.list('-synced_at', 500).then(setItems);
@@ -50,7 +48,7 @@ export default function Dashboard() {
 
   async function handleSync() {
     if (boards.length === 0) {
-      toast({ title: 'No boards configured', description: 'Add a board in the Boards page first.' });
+      toast.error('No boards configured', { description: 'Add a board in the Boards page first.' });
       return;
     }
     setSyncing(true);
@@ -63,7 +61,7 @@ export default function Dashboard() {
     const updated = await base44.entities.SprintItem.list('-synced_at', 500);
     setItems(updated);
     setSyncing(false);
-    toast({ title: 'Sync complete', description: `${total} items synced from Monday.com` });
+    toast.success('Sync complete', { description: `${total} items synced from Monday.com` });
   }
 
   return (

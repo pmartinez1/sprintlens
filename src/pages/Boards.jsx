@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Trello, Plus, RefreshCw, Trash2, CheckCircle, Clock } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 
 export default function Boards() {
   const [boards, setBoards] = useState([]);
@@ -24,8 +24,6 @@ export default function Boards() {
     category_column_id: '',
   });
   const [selectedMondayBoard, setSelectedMondayBoard] = useState(null);
-  const { toast } = useToast();
-
   useEffect(() => {
     base44.entities.Board.list().then(setBoards);
   }, []);
@@ -62,13 +60,13 @@ export default function Boards() {
     setShowAddForm(false);
     setForm({ monday_board_id: '', phase_column_id: '', status_column_id: '', planned_column_id: '', priority_column_id: '', estimate_column_id: '', category_column_id: '' });
     setSelectedMondayBoard(null);
-    toast({ title: 'Board added', description: `${selectedMondayBoard.name} is now tracked.` });
+    toast.success('Board added', { description: `${selectedMondayBoard.name} is now tracked.` });
   }
 
   async function handleDelete(board) {
     await base44.entities.Board.delete(board.id);
     setBoards(b => b.filter(x => x.id !== board.id));
-    toast({ title: 'Board removed' });
+    toast.success('Board removed');
   }
 
   async function handleSync(board) {
@@ -77,7 +75,7 @@ export default function Boards() {
     const updated = await base44.entities.Board.list();
     setBoards(updated);
     setSyncing(s => ({ ...s, [board.id]: false }));
-    toast({ title: 'Sync complete', description: `${res.data?.total || 0} items synced.` });
+    toast.success('Sync complete', { description: `${res.data?.total || 0} items synced.` });
   }
 
   const columns = selectedMondayBoard?.columns || [];
