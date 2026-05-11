@@ -23,7 +23,7 @@ export default function Dashboard() {
   const [agentOpen, setAgentOpen] = useState(false);
   useEffect(() => {
     base44.entities.Board.list().then(setBoards);
-    base44.functions.invoke('getSprintItems', {}).then(res => setItems(res.data?.items || []));
+    base44.entities.SprintItem.list('-synced_at', 500).then(setItems);
   }, []);
 
   const filteredByBoard = selectedBoardId === 'all'

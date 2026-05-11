@@ -38,6 +38,7 @@ Deno.serve(async (req) => {
   // Any authenticated user can trigger a sync, the function only reads from Monday.com.
   // asServiceRole is used below solely to write synced data into SprintItem (which is admin-only at the entity level).
   if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
+  if (user.role !== 'admin') return Response.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
 
   const apiToken = Deno.env.get('MONDAY_API_TOKEN');
   if (!apiToken) return Response.json({ error: 'MONDAY_API_TOKEN not set' }, { status: 500 });
