@@ -137,9 +137,11 @@ export default function Boards() {
                   <SelectValue placeholder="Choose a board…" />
                 </SelectTrigger>
                 <SelectContent className="bg-slate-800 border-slate-700 text-slate-200">
-                  {mondayBoards.map(b => (
-                    <SelectItem key={b.id} value={b.id}>{b.name}</SelectItem>
-                  ))}
+                  {mondayBoards
+                    .filter(b => !boards.some(existing => existing.monday_board_id === b.id))
+                    .map(b => (
+                      <SelectItem key={b.id} value={b.id}>{b.name}</SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
             )}
