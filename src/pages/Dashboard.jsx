@@ -111,9 +111,11 @@ export default function Dashboard() {
           </Button>
           <Button
             size="sm"
-            variant={agentOpen ? 'secondary' : 'outline'}
             onClick={() => setAgentOpen(o => !o)}
-            className="h-8 text-xs border-slate-700 text-slate-300 hover:bg-slate-800"
+            className={agentOpen 
+              ? "h-8 text-xs bg-indigo-600 text-white hover:bg-indigo-700" 
+              : "h-8 text-xs border-indigo-500/50 text-white hover:bg-indigo-600"
+            }
           >
             <Bot className="w-3.5 h-3.5 mr-1.5" />
             AI Analyst
